@@ -1,0 +1,39 @@
+import { promises as fs } from 'fs';
+import { randomUUID } from 'node:crypto';
+
+import { IGuestBook, type TGuestMutation } from './types';
+
+const filename = './db.json';
+
+let data: IGuestBook[] = [];
+
+const fileDb = {
+  async init() {
+    try {
+      const fileContents = await fs.readFile(filename);
+
+      data = JSON.parse(fileContents.toString());
+    } catch (e) {
+      data = [];
+    }
+  },
+
+  async getItems() {
+    return data;
+  },
+
+  async addItem(item: TGuestMutation) {
+    const id = crypto.randomUUID();
+    const createdAt = new Date().toISOString();
+    const guestbook = { ...item, id, createdAt };
+    data.push(guestbook);
+
+    await this.save();
+  },
+
+  async save() {
+    return fs.writeFile(filename, JSON.stringify(data));
+  },
+};
+
+export default fileDb;

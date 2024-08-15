@@ -1,16 +1,19 @@
 import express from 'express';
+import fileDb from './fileDb';
+import guestbookRouter from './routers/guestbook';
 
 const app = express();
 const port = 8000;
 
-app.get('/guestbook', (req, res) => {
-  res.send('List of guest books will be here');
-});
+app.use(express.json());
+app.use('/guestbook', guestbookRouter);
 
-app.post('/guestbook', (req, res) => {
-  res.send('Will create new guest book here');
-});
+const run = async () => {
+  await fileDb.init();
 
-app.listen(port, () => {
-  console.log(`Server started on ${port} port!`);
-});
+  app.listen(port, () => {
+    console.log(`Server started on ${port} port!`);
+  });
+};
+
+run().catch((err) => console.error(err));
