@@ -1,5 +1,4 @@
 import { promises as fs } from 'fs';
-import { randomUUID } from 'node:crypto';
 
 import { IGuestBook, type TGuestMutation } from './types';
 
@@ -29,6 +28,18 @@ const fileDb = {
     data.push(guestbook);
 
     await this.save();
+  },
+
+  async deleteItem(id: string) {
+    const deleteItem = data.find((item) => item.id === id);
+
+    if (!deleteItem) {
+      return null;
+    }
+
+    data = data.filter((item) => item.id !== id);
+    await this.save();
+    return deleteItem;
   },
 
   async save() {

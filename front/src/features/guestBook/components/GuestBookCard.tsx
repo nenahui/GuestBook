@@ -54,11 +54,13 @@ export const GuestBookCard: React.FC<Props> = ({ guestBook }) => {
           {guestBook.message}
         </CardDescription>
         {guestBook.image && (
-          <img
-            src={`http://localhost:8000/${guestBook.image}`}
-            className={'rounded-lg'}
-            alt={guestBook.author + ' image'}
-          />
+          <div className={'mt-3 pt-2 border-t'}>
+            <img
+              src={`http://172.20.10.3:8000/${guestBook.image}`}
+              className={'rounded-lg'}
+              alt={guestBook.author + ' image'}
+            />
+          </div>
         )}
       </CardHeader>
     </Card>
