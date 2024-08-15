@@ -1,3 +1,4 @@
+import { Toaster } from '@/components/ui/sonner';
 import { GuestBook } from '@/features/guestBook/GuestBook';
 import React from 'react';
 import { ThemeProvider } from '@/components/ui/theme-provider';
@@ -7,6 +8,7 @@ export const App: React.FC = () => {
     <ThemeProvider defaultTheme={'dark'}>
       <div className={'max-w-[400px] mx-auto p-3 relative'}>
         <GuestBook />
+        <Toaster />
       </div>
     </ThemeProvider>
   );

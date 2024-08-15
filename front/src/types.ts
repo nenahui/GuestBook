@@ -2,8 +2,12 @@ export interface IGuestBook {
   id: string;
   author: string | null;
   message: string;
-  image: File | null;
+  image: string | null;
   createdAt: string;
 }
 
-export type TGuestMutation = Omit<IGuestBook, 'id' | 'createdAt'>;
+export interface IGuestMutation {
+  message: string;
+  author: string | null;
+  image: File | null;
+}
