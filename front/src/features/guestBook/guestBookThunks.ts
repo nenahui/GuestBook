@@ -17,22 +17,29 @@ export const fetchGuestBooks = createAsyncThunk<IGuestBook[], void, { state: Roo
   }
 );
 
-export const createGuestBook = createAsyncThunk<void, IGuestMutation>('guestbook/create', async (guestBook) => {
-  try {
-    const formData = new FormData();
-    formData.append('message', guestBook.message);
+export const createGuestBook = createAsyncThunk<void, IGuestMutation, { state: RootState }>(
+  'guestbook/create',
+  async (guestBook) => {
+    try {
+      const formData = new FormData();
+      formData.append('message', guestBook.message);
 
-    if (guestBook.author) {
-      formData.append('author', guestBook.author);
+      if (guestBook.author) {
+        formData.append('author', guestBook.author);
+      }
+
+      if (guestBook.image) {
+        formData.append('image', guestBook.image);
+      }
+
+      console.log(guestBook);
+      await axiosApi.post('/guestbook', formData);
+    } catch (error) {
+      console.error(error);
     }
-
-    if (guestBook.image) {
-      formData.append('image', guestBook.image);
-    }
-
-    console.log(guestBook);
-    await axiosApi.post('/guestbook', formData);
-  } catch (error) {
-    console.error(error);
   }
+);
+
+export const deleteGuestBook = createAsyncThunk<void, string, { state: RootState }>('guestbook/delete', async (id) => {
+  await axiosApi.delete(`/guestbook/delete/${id}`);
 });

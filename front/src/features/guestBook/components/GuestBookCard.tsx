@@ -1,4 +1,9 @@
-import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { useAppDispatch } from '@/app/hooks';
+import { HeartIcon } from '@/assets/icons/heart';
+import { TrashIcon } from '@/assets/icons/trash';
+import { Button } from '@/components/ui/button';
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { deleteGuestBook } from '@/features/guestBook/guestBookThunks';
 import type { IGuestBook } from '@/types';
 import dayjs from 'dayjs';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
@@ -13,6 +18,8 @@ interface Props {
 }
 
 export const GuestBookCard: React.FC<Props> = ({ guestBook }) => {
+  const dispatch = useAppDispatch();
+
   const formatDate = (date: string): string => {
     const createdAt = dayjs(date);
     const currentDate = dayjs();
@@ -44,7 +51,7 @@ export const GuestBookCard: React.FC<Props> = ({ guestBook }) => {
   };
 
   return (
-    <Card className={'flex p-3 gap-2.5'}>
+    <Card className={'flex p-3 gap-2.5 flex-col'}>
       <CardHeader className={'p-0'}>
         <CardTitle className={'flex gap-2'}>
           <p className={'leading-[1.2] font-medium'}>{guestBook.author ? guestBook.author : 'Anonymous'}</p>
@@ -63,6 +70,12 @@ export const GuestBookCard: React.FC<Props> = ({ guestBook }) => {
           </div>
         )}
       </CardHeader>
+      <CardFooter className={'p-0 gap-2'}>
+        <HeartIcon active={true} size={20} color={'rgba(255,255,255, 0.5)'} strokeWidth={1} hoverColor={'red'} />
+        <Button variant={'ghost'} onClick={() => dispatch(deleteGuestBook(guestBook.id))}>
+          <TrashIcon size={20} color={'rgba(255,255,255, 0.5)'} strokeWidth={1} hoverColor={'red'} />
+        </Button>
+      </CardFooter>
     </Card>
   );
 };

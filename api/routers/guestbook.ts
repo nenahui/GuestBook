@@ -14,7 +14,7 @@ guestbookRouter.get('/', async (req, res) => {
   }
 });
 
-guestbookRouter.post('/delete/:id', async (req, res) => {
+guestbookRouter.delete('/delete/:id', async (req, res) => {
   const id = req.params.id;
   const deletedItem = await fileDb.deleteItem(id);
 
