@@ -1,4 +1,4 @@
-import { NotFoundAvatar } from '@/assets/not-found-avatar';
+import { NotFoundAvatarIcon } from '@/assets/icons/not-found-avatar-icon';
 import type { IGuestBook } from '@/types';
 import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -8,13 +8,13 @@ interface Props {
   guestBook: IGuestBook;
 }
 
-export const GuestCard: React.FC<Props> = ({ guestBook }) => {
+export const GuestBookCard: React.FC<Props> = ({ guestBook }) => {
   return (
     <Card className={'flex p-3 gap-2.5'}>
       <Avatar className={'border-2'}>
         {guestBook.image && <AvatarImage src={guestBook.image} />}
         <AvatarFallback>
-          {!guestBook.image && <NotFoundAvatar color={'rgba(255,255,255,0.62)'} size={18} />}
+          {!guestBook.image && <NotFoundAvatarIcon color={'rgba(255,255,255,0.62)'} size={18} />}
         </AvatarFallback>
       </Avatar>
       <CardHeader className={'p-0'}>

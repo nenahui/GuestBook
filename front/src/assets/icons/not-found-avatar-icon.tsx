@@ -5,7 +5,7 @@ interface Props {
   size: number;
 }
 
-export const NotFoundAvatar: React.FC<Props> = ({ color, size }) => {
+export const NotFoundAvatarIcon: React.FC<Props> = ({ color, size }) => {
   return (
     <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width={size} height={size} color={color} fill={'none'}>
       <circle cx='16.5' cy='7.5' r='1.5' stroke='currentColor' strokeWidth='1.5' />
