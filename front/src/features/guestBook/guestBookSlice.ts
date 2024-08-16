@@ -21,7 +21,9 @@ export const guestBookSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchGuestBooks.pending, (state) => {
-        state.isLoading = true;
+        if (state.guestbooks.length === 0) {
+          state.isLoading = true;
+        }
       })
       .addCase(fetchGuestBooks.fulfilled, (state, { payload: apiMessages }) => {
         state.guestbooks = apiMessages;

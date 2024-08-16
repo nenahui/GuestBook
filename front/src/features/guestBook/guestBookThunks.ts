@@ -31,8 +31,6 @@ export const createGuestBook = createAsyncThunk<void, IGuestMutation, { state: R
       if (guestBook.image) {
         formData.append('image', guestBook.image);
       }
-
-      console.log(guestBook);
       await axiosApi.post('/guestbook', formData);
     } catch (error) {
       console.error(error);
@@ -41,5 +39,17 @@ export const createGuestBook = createAsyncThunk<void, IGuestMutation, { state: R
 );
 
 export const deleteGuestBook = createAsyncThunk<void, string, { state: RootState }>('guestbook/delete', async (id) => {
-  await axiosApi.delete(`/guestbook/delete/${id}`);
+  try {
+    await axiosApi.delete(`/guestbook/delete/${id}`);
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+export const updateGuestBook = createAsyncThunk<void, string, { state: RootState }>('guestbook/update', async (id) => {
+  try {
+    await axiosApi.put(`/guestbook/update/${id}`);
+  } catch (error) {
+    console.error(error);
+  }
 });

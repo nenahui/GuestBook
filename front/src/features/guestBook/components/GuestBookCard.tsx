@@ -3,7 +3,7 @@ import { HeartIcon } from '@/assets/icons/heart';
 import { TrashIcon } from '@/assets/icons/trash';
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { deleteGuestBook } from '@/features/guestBook/guestBookThunks';
+import { deleteGuestBook, fetchGuestBooks, updateGuestBook } from '@/features/guestBook/guestBookThunks';
 import type { IGuestBook } from '@/types';
 import dayjs from 'dayjs';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
@@ -19,6 +19,16 @@ interface Props {
 
 export const GuestBookCard: React.FC<Props> = ({ guestBook }) => {
   const dispatch = useAppDispatch();
+
+  const deleteItem = async (id: string) => {
+    await dispatch(deleteGuestBook(id));
+    dispatch(fetchGuestBooks());
+  };
+
+  const updateItem = async (id: string) => {
+    await dispatch(updateGuestBook(id));
+    dispatch(fetchGuestBooks());
+  };
 
   const formatDate = (date: string): string => {
     const createdAt = dayjs(date);
@@ -51,7 +61,7 @@ export const GuestBookCard: React.FC<Props> = ({ guestBook }) => {
   };
 
   return (
-    <Card className={'flex p-3 gap-2.5 flex-col'}>
+    <Card className={'flex p-3 gap-2.5 flex-col pb-1'}>
       <CardHeader className={'p-0'}>
         <CardTitle className={'flex gap-2'}>
           <p className={'leading-[1.2] font-medium'}>{guestBook.author ? guestBook.author : 'Anonymous'}</p>
@@ -70,9 +80,28 @@ export const GuestBookCard: React.FC<Props> = ({ guestBook }) => {
           </div>
         )}
       </CardHeader>
-      <CardFooter className={'p-0 gap-2'}>
-        <HeartIcon active={true} size={20} color={'rgba(255,255,255, 0.5)'} strokeWidth={1} hoverColor={'red'} />
-        <Button variant={'ghost'} onClick={() => dispatch(deleteGuestBook(guestBook.id))}>
+      <CardFooter className={'p-0'}>
+        <Button
+          variant={'ghost'}
+          size={'icon'}
+          onClick={() => updateItem(guestBook.id)}
+          className={'hover:bg-transparent'}
+        >
+          <HeartIcon
+            active={guestBook.liked}
+            size={20}
+            color={'rgba(255,255,255, 0.5)'}
+            strokeWidth={1}
+            hoverColor={'red'}
+          />
+        </Button>
+
+        <Button
+          variant={'ghost'}
+          size={'icon'}
+          onClick={() => deleteItem(guestBook.id)}
+          className={'hover:bg-transparent'}
+        >
           <TrashIcon size={20} color={'rgba(255,255,255, 0.5)'} strokeWidth={1} hoverColor={'red'} />
         </Button>
       </CardFooter>

@@ -58,6 +58,7 @@ export const GuestBook: React.FC = () => {
               message: item.message,
               createdAt: item.createdAt,
               image: item.image,
+              liked: item.liked,
             }}
           />
         ))

@@ -22,24 +22,51 @@ const fileDb = {
   },
 
   async addItem(item: TGuestMutation) {
-    const id = crypto.randomUUID();
-    const createdAt = new Date().toISOString();
-    const guestbook = { ...item, id, createdAt };
-    data.push(guestbook);
+    try {
+      const id = crypto.randomUUID();
+      const createdAt = new Date().toISOString();
+      const guestbook = { ...item, id, createdAt };
+      data.push(guestbook);
 
-    await this.save();
+      await this.save();
+    } catch (e) {
+      console.error(e);
+      return null;
+    }
   },
 
   async deleteItem(id: string) {
-    const deleteItem = data.find((item) => item.id === id);
+    try {
+      const deleteItem = data.find((item) => item.id === id);
 
-    if (!deleteItem) {
+      if (!deleteItem) {
+        return null;
+      }
+
+      data = data.filter((item) => item.id !== id);
+      await this.save();
+      return deleteItem;
+    } catch (e) {
+      console.error(e);
       return null;
     }
+  },
 
-    data = data.filter((item) => item.id !== id);
-    await this.save();
-    return deleteItem;
+  async updateItem(id: string) {
+    try {
+      const updateItem = data.findIndex((item) => item.id === id);
+
+      if (updateItem === -1) {
+        return null;
+      }
+
+      data[updateItem] = { ...data[updateItem], liked: !data[updateItem].liked };
+      await this.save();
+      return data[updateItem];
+    } catch (e) {
+      console.error(e);
+      return null;
+    }
   },
 
   async save() {

@@ -4,6 +4,7 @@ export interface IGuestBook {
   message: string;
   image: string | null;
   createdAt: string;
+  liked: boolean;
 }
 
 export interface IGuestMutation {
